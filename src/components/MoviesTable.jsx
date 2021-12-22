@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { getMovies, getMovie } from "../services/fakeMovieService";
+import paginate from "../utils/paginate";
 import Like from "./common/like";
+import Pagination from "./common/pagination";
 
 function Table() {
   const [movies, setMovies] = useState(getMovies);
+  const [pageSize, setPageSize] = useState(4);
+  const [currentPage, setCurrentPage] = useState(1);
+
   // const [movie, setMovie] = useState(getMovie);
 
   const handleDelete = (movie) =>
@@ -17,8 +22,18 @@ function Table() {
     setMovies(cloneMov);
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const itemCount = movies.length;
+  if (itemCount == 0) <h2>No movies remain</h2>;
+
+  const clonedMovies = paginate(movies, pageSize, currentPage);
+
   return (
     <div>
+      <h6>Showing {itemCount} movies in the database</h6>
       <table className="table">
         <thead>
           <tr>
@@ -31,7 +46,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {movies.map((movie) => (
+          {clonedMovies.map((movie) => (
             <tr key={movie._id}>
               <th>{movie.title}</th>
               <td>{movie.genre.name}</td>
@@ -52,6 +67,12 @@ function Table() {
           ))}
         </tbody>
       </table>
+      <Pagination
+        itemsCount={itemCount}
+        pageSize={pageSize}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }
