@@ -3,3 +3,7 @@
 *::after {
   padding: 0.3rem;
 }
+
+.clickable {
+  cursor: pointer;
+}

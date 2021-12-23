@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import Table from "./components/MoviesTable";
+import Movies from "./components/Movies";
 
 function App() {
   return (
     <React.Fragment>
-      <Table />
+      <Movies />
     </React.Fragment>
   );
 }

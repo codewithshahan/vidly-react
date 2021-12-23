@@ -15,7 +15,7 @@ function listGroup({
             key={genre[valueProp]}
             onClick={() => onGenreSelect(genre)}
             className={
-              genre == selectedGenre
+              genre === selectedGenre
                 ? "list-group-item active"
                 : "list-group-item"
             }

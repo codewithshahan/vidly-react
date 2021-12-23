@@ -6,7 +6,7 @@ function pagination(props) {
   const { itemsCount, pageSize, currentPage, onPageChange } = props;
   const pageCount = Math.ceil(itemsCount / pageSize);
   const pages = _.range(1, pageCount + 1);
-  if (pages == 1) return null;
+  if (pages === 1) return null;
 
   return (
     <div>
@@ -14,11 +14,11 @@ function pagination(props) {
         {pages.map((page) => (
           <li
             key={page}
-            className={page == currentPage ? "page-item active" : "page-item"}
+            className={page === currentPage ? "page-item active" : "page-item"}
           >
-            <a onClick={() => onPageChange(page)} className="page-link">
+            <button onClick={() => onPageChange(page)} className="page-link">
               {page}
-            </a>
+            </button>
           </li>
         ))}
       </ul>
