@@ -11,3 +11,9 @@
 .navbar {
   margin-bottom: 2rem;
 }
+
+form {
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+}
