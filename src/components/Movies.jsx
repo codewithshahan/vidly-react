@@ -7,6 +7,7 @@ import ListGroup from "./common/listGroup";
 import { useMemo } from "react";
 import MoviesTable from "./MoviesTable";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 
 function Movies() {
   const pageSize = 4;
@@ -66,7 +67,6 @@ function Movies() {
 
   return (
     <div>
-      <h6>Showing {totalCount} movies in the database</h6>
       <div className="row">
         <div className="col-3">
           <ListGroup
@@ -76,6 +76,12 @@ function Movies() {
           />
         </div>
         <div className="col-lg">
+          <h6>Showing {totalCount} movies in the database</h6>
+
+          <Link className="btn btn-primary" to="/movies/new">
+            New
+          </Link>
+
           <MoviesTable
             movies={clonedMovies}
             onLike={handleLike}
