@@ -8,14 +8,16 @@ import { useMemo } from "react";
 import MoviesTable from "./MoviesTable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import SearchBox from "./common/searchBox";
 
 function Movies() {
   const pageSize = 4;
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [genres, setGenres] = useState([]);
-  const [selectedGenre, setSelectedGenre] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState(null);
   const [sortColumn, setSortColumn] = useState({ path: "name", order: "asc" });
+  const [searchQuery, setSearchQuery] = useState("");
 
   useMemo(() => {
     const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
@@ -38,20 +40,35 @@ function Movies() {
     setCurrentPage(page);
   };
 
-  const onItemSelect = (genre) => {
-    setSelectedGenre(genre);
-    setCurrentPage(1);
-  };
-
   const handleSort = (newSort) => {
     setSortColumn(newSort);
   };
 
+  const handleSearchChange = (query) => {
+    setSearchQuery(query);
+    setSelectedGenre(null);
+    setCurrentPage(1);
+  };
+
+  const handleGenreSelect = (genre) => {
+    setSearchQuery("");
+    setSelectedGenre(genre);
+    setCurrentPage(1);
+  };
+
   const getPageData = () => {
-    const filltered =
-      selectedGenre && selectedGenre._id
-        ? movies.filter((movie) => movie.genre._id === selectedGenre._id)
-        : movies;
+    let filltered;
+
+    if (searchQuery)
+      filltered = movies.filter((m) =>
+        m.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    else {
+      filltered =
+        selectedGenre && selectedGenre._id
+          ? movies.filter((movie) => movie.genre._id === selectedGenre._id)
+          : movies;
+    }
 
     const sorted = _.orderBy(filltered, [sortColumn.path], [sortColumn.order]);
 
@@ -71,16 +88,18 @@ function Movies() {
         <div className="col-3">
           <ListGroup
             genres={genres}
-            onGenreSelect={onItemSelect}
+            onGenreSelect={handleGenreSelect}
             selectedGenre={selectedGenre}
           />
         </div>
         <div className="col-lg">
+          <Link className="btn btn-primary mb-3" to="/movies/new">
+            New Movie
+          </Link>
+
           <h6>Showing {totalCount} movies in the database</h6>
 
-          <Link className="btn btn-primary" to="/movies/new">
-            New
-          </Link>
+          <SearchBox value={searchQuery} onChange={handleSearchChange} />
 
           <MoviesTable
             movies={clonedMovies}
