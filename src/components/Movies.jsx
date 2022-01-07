@@ -40,14 +40,26 @@ function Movies() {
     setCurrentPage(page);
   };
 
+<<<<<<< HEAD
   const handleGenreSelect = (genre) => {
     setSelectedGenre(genre);
     setSearchQuery("");
+=======
+  const handleSort = (newSort) => {
+    setSortColumn(newSort);
+  };
+
+  const handleSearchChange = (query) => {
+    setSearchQuery(query);
+    setSelectedGenre(null);
+>>>>>>> ed90c22d2711cc8d56f55fce74cff95c3707415a
     setCurrentPage(1);
   };
 
-  const handleSort = (newSort) => {
-    setSortColumn(newSort);
+  const handleGenreSelect = (genre) => {
+    setSearchQuery("");
+    setSelectedGenre(genre);
+    setCurrentPage(1);
   };
 
   const handleSearchChange = (input) => {
@@ -57,6 +69,7 @@ function Movies() {
   };
 
   const getPageData = () => {
+<<<<<<< HEAD
     let filltered = movies;
 
     if (searchQuery) {
@@ -64,6 +77,15 @@ function Movies() {
         m.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
     } else {
+=======
+    let filltered;
+
+    if (searchQuery)
+      filltered = movies.filter((m) =>
+        m.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    else {
+>>>>>>> ed90c22d2711cc8d56f55fce74cff95c3707415a
       filltered =
         selectedGenre && selectedGenre._id
           ? movies.filter((movie) => movie.genre._id === selectedGenre._id)
@@ -93,11 +115,13 @@ function Movies() {
           />
         </div>
         <div className="col-lg">
+          <Link className="btn btn-primary mb-3" to="/movies/new">
+            New Movie
+          </Link>
+
           <h6>Showing {totalCount} movies in the database</h6>
 
-          <Link className="btn btn-primary" to="/movies/new">
-            New
-          </Link>
+          <SearchBox value={searchQuery} onChange={handleSearchChange} />
 
           <SearchBox value={searchQuery} onChange={handleSearchChange} />
 
