@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { getMovies } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 import paginate from "../utils/paginate";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
@@ -19,9 +19,11 @@ function Movies() {
   const [sortColumn, setSortColumn] = useState({ path: "name", order: "asc" });
   const [searchQuery, setSearchQuery] = useState("");
 
-  useMemo(() => {
-    const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
-    setMovies(getMovies);
+  useMemo(async () => {
+    const { data } = await getGenres();
+    const { data: movies } = await getMovies();
+    const genres = [{ _id: "", name: "All Genres" }, ...data];
+    setMovies(movies);
     setGenres(genres);
   }, []);
 

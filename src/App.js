@@ -9,10 +9,12 @@ import NotFound from "./components/NotFound";
 import NavBar from "./components/NavBar";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <React.Fragment>
+      <ToastContainer />
       <NavBar />
       <Switch>
         <Route path="/movies/:id" component={MovieForm}></Route>
