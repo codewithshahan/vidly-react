@@ -1,14 +1,14 @@
 import http from "./httpService";
 import config from "../config.json";
 
-const movies = http.get(`${config.api}/movies`);
+const moviesApi = `${config.api}/movies`;
 
 function movieUrl(id) {
-  return `${config.api}/${id}`;
+  return `${moviesApi}/${id}`;
 }
 
 export function getMovies() {
-  return movies;
+  return http.get(moviesApi);
 }
 
 export function getMovie(id) {
