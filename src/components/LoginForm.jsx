@@ -1,6 +1,8 @@
 import React from "react";
 import Joi from "joi-browser";
 import form from "./common/form";
+import { getWithJwt, login } from "../services/authService";
+import { toast } from "react-toastify";
 
 export default class LoginForm extends form {
   state = {
@@ -13,9 +15,20 @@ export default class LoginForm extends form {
     password: Joi.string().required().label("Password"),
   };
 
-  doSubmit = (e) => {
-    console.log("Submitted");
-  };
+  async doSubmit() {
+    try {
+      const { data } = this.state;
+      login(data.username, data.password);
+      toast.success("Successfully logged in");
+      window.location = "/";
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errorMessage };
+        errors.username = ex.response.data;
+        this.setState({ errorMessage: errors });
+      }
+    }
+  }
 
   render() {
     return (
